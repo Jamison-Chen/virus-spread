@@ -1,84 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <script type="module" src="./script.mjs" defer></script>
-    <title>Document</title>
-</head>
-
-<body>
-    <div id="select-mode-page">
-        <div id="description">Select a Mode</div>
-        <div class="mode" id="classic-mode">
-            <div class="mode-name">classic</div>
-        </div>
-        <div class="mode" id="center-mode">
-            <div class="mode-name">center</div>
-            <div class="mode-options">
-                <div class="info">
-                    <label for="goRate">The possibility for each one to go to the center</label>
-                    <output></output>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./style.css" />
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+        <script type="module" src="./js/script.js" defer></script>
+        <title>Virus Spread</title>
+    </head>
+    <body>
+        <div id="select-mode-page">
+            <div id="description">Select a Mode</div>
+            <div class="mode" id="classic-mode">
+                <div class="mode-name">classic</div>
+            </div>
+            <div class="mode" id="center-mode">
+                <div class="mode-name">center</div>
+                <div class="mode-options">
+                    <div class="info">
+                        <label for="goRate"
+                            >The possibility for each one to go to the
+                            center</label
+                        >
+                        <output></output>
+                    </div>
+                    <input
+                        type="range"
+                        name="goRate"
+                        id="go-rate-scrl-bar"
+                        class="scrl-bar"
+                    />
                 </div>
-                <input type="range" name="goRate" id="go-rate-scrl-bar" class="scrl-bar">
+            </div>
+            <div id="pull-up-btn"></div>
+            <div id="pull-down-btn"></div>
+        </div>
+        <div id="main">
+            <div class="center" id="center"></div>
+        </div>
+        <div class="side-bar">
+            <div class="settings">
+                <div class="info">
+                    <label for="population">Population</label><output></output>
+                </div>
+                <input
+                    type="range"
+                    name="population"
+                    id="population-scrl-bar"
+                    class="scrl-bar"
+                />
+                <div class="info">
+                    <label for="energy">Energy</label><output></output>
+                </div>
+                <input
+                    type="range"
+                    name="energy"
+                    id="energy-scrl-bar"
+                    class="scrl-bar"
+                />
+                <div class="info">
+                    <label for="initialInfectedNum">Initial Infected</label
+                    ><output></output>
+                </div>
+                <input
+                    type="range"
+                    name="initialInfectedNum"
+                    id="initial-infected-num-scrl-bar"
+                    class="scrl-bar"
+                />
+                <div class="info">
+                    <label for="virusPower">Virus Power</label><output></output>
+                </div>
+                <input
+                    type="range"
+                    name="virusPower"
+                    id="virus-power-scrl-bar"
+                    class="scrl-bar"
+                />
+                <div class="info">
+                    <label for="infectedPossibility">Infected Possibility</label
+                    ><output></output>
+                </div>
+                <input
+                    type="range"
+                    name="infectedPossibility"
+                    id="infected-possibility-scrl-bar"
+                    class="scrl-bar"
+                />
+                <div class="info">
+                    <label for="recoverDay">Recover Day</label><output></output>
+                </div>
+                <input
+                    type="range"
+                    name="recoverDay"
+                    id="recover-day-scrl-bar"
+                    class="scrl-bar"
+                />
+                <div class="info">
+                    <label for="simulationSpeed">Wait Time</label
+                    ><output></output>
+                </div>
+                <input
+                    type="range"
+                    name="simulationSpeed"
+                    id="wait-time-scrl-bar"
+                    class="scrl-bar"
+                />
+                <div class="btns">
+                    <div id="simulate-btn" class="start-simulate-btn"></div>
+                    <div id="stop-btn"></div>
+                </div>
+            </div>
+            <div id="chart-div">
+                <canvas id="myChart" height="300"></canvas>
             </div>
         </div>
-        <div id="pull-up-btn"></div>
-        <div id="pull-down-btn"></div>
-    </div>
-    <div id="main">
-        <div class="center" id="center"></div>
-    </div>
-    <div class="side-bar">
-        <div class="settings">
-            <div class="info">
-                <label for="population">Population</label><output></output>
-            </div>
-            <input type="range" name="population" id="population-scrl-bar" class="scrl-bar">
-
-            <div class="info">
-                <label for="energy">Energy</label><output></output>
-            </div>
-            <input type="range" name="energy" id="energy-scrl-bar" class="scrl-bar">
-
-            <div class="info">
-                <label for="initialInfectedNum">Initial Infected</label><output></output>
-            </div>
-            <input type="range" name="initialInfectedNum" id="initial-infected-num-scrl-bar" class="scrl-bar">
-
-            <div class="info">
-                <label for="virusPower">Virus Power</label><output></output>
-            </div>
-            <input type="range" name="virusPower" id="virus-power-scrl-bar" class="scrl-bar">
-
-            <div class="info">
-                <label for="infectedPossibility">Infected Possibility</label><output></output>
-            </div>
-            <input type="range" name="infectedPossibility" id="infected-possibility-scrl-bar" class="scrl-bar">
-
-            <div class="info">
-                <label for="recoverDay">Recover Day</label><output></output>
-            </div>
-            <input type="range" name="recoverDay" id="recover-day-scrl-bar" class="scrl-bar">
-
-            <div class="info">
-                <label for="simulationSpeed">Wait Time</label><output></output>
-            </div>
-            <input type="range" name="simulationSpeed" id="wait-time-scrl-bar" class="scrl-bar">
-
-            <div class="btns">
-                <div id="simulate-btn" class="start-simulate-btn"></div>
-                <div id="stop-btn"></div>
-            </div>
-        </div>
-
-        <div id="chart-div">
-            <canvas id="myChart" height="300"></canvas>
-        </div>
-    </div>
-</body>
-
+    </body>
 </html>

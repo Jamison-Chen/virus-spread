@@ -1,0 +1,20 @@
+{
+  "name": "virus-spread",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "init-ts": "tsc --init",
+    "watch-ts": "tsc -w",
+    "watch-sass": "sass --watch .:.",
+    "dev": "concurrently --kill-others 'npm:watch-*'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.1",
+    "sass": "^1.66.1",
+    "typescript": "^5.2.2"
+  }
+}

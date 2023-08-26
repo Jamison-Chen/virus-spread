@@ -1,4 +1,4 @@
-import { Dot } from './modules/dot.mjs';
+import { Dot } from "./dot.js";
 const simulateBtn = document.getElementById("simulate-btn");
 const pullUpBtn = document.getElementById("pull-up-btn");
 const pullDownBtn = document.getElementById("pull-down-btn");
@@ -15,7 +15,7 @@ let ctx;
 let chart;
 let mode;
 let goToCenterRate = 5;
-addSelectModeEL()
+addSelectModeEL();
 checkSelectMode();
 
 let population = 400;
@@ -34,26 +34,27 @@ let infectedNum;
 let hasGotInfected;
 
 function addSelectModeEL() {
-    let allModes = document.getElementsByClassName("mode")
+    let allModes = document.getElementsByClassName("mode");
     for (let i = 0; i < allModes.length; i++) {
-        allModes[i].addEventListener("click", e => {
+        allModes[i].addEventListener("click", (e) => {
             mode = `${allModes[i].firstElementChild.innerText}`;
             for (let j = 0; j < allModes.length; j++) {
                 if (j != i) {
                     allModes[j].style.textShadow = "";
                 } else {
-                    allModes[j].style.textShadow = "0px 0px 10px #fff, 0px 0px 10px #fff";
+                    allModes[j].style.textShadow =
+                        "0px 0px 10px #fff, 0px 0px 10px #fff";
                 }
             }
             checkSelectMode();
         });
     }
-    pullUpBtn.addEventListener("click", e => {
+    pullUpBtn.addEventListener("click", (e) => {
         selectModePage.style.top = "-100%";
         pullUpBtn.style.bottom = "-10%";
         pullDownBtn.style.top = "0%";
     });
-    pullDownBtn.addEventListener("click", e => {
+    pullDownBtn.addEventListener("click", (e) => {
         selectModePage.style.top = "0%";
         pullUpBtn.style.bottom = "10%";
         pullDownBtn.style.top = "-10%";
@@ -77,10 +78,9 @@ function setSlider(elementId, minVal, maxVal, targetVar) {
     elDiv.max = maxVal;
     elDiv.value = eval(targetVar);
     elDiv.previousElementSibling.children.item(1).value = eval(targetVar);
-    elDiv.addEventListener("input", function() {
+    elDiv.addEventListener("input", function () {
         eval(targetVar + "=" + elDiv.value);
-        elDiv.previousElementSibling.children.item(1).value =
-            elDiv.value;
+        elDiv.previousElementSibling.children.item(1).value = elDiv.value;
     });
 }
 
@@ -103,9 +103,12 @@ function initCenterDiv() {
 
 function controlPanelSetUp() {
     setSlider("population-scrl-bar", 1, 800, "population");
-    document.getElementById("population-scrl-bar").addEventListener("input", function() {
-        document.getElementById("initial-infected-num-scrl-bar").max = population;
-    });
+    document
+        .getElementById("population-scrl-bar")
+        .addEventListener("input", function () {
+            document.getElementById("initial-infected-num-scrl-bar").max =
+                population;
+        });
 
     setSlider("energy-scrl-bar", 0, 500, "energy");
 
@@ -115,7 +118,12 @@ function controlPanelSetUp() {
 
     setSlider("recover-day-scrl-bar", 1, 10, "recoverMultiplier");
 
-    setSlider("initial-infected-num-scrl-bar", 0, population, "initInfectedNum");
+    setSlider(
+        "initial-infected-num-scrl-bar",
+        0,
+        population,
+        "initInfectedNum"
+    );
 
     setSlider("wait-time-scrl-bar", 50, 1000, "waitTime");
 
@@ -126,10 +134,14 @@ function toSetUp() {
     while (mainDiv.lastElementChild) {
         mainDiv.removeChild(mainDiv.lastElementChild);
     }
-    for (let i = 0; i < document.getElementsByClassName("scrl-bar").length; i++) {
+    for (
+        let i = 0;
+        i < document.getElementsByClassName("scrl-bar").length;
+        i++
+    ) {
         document.getElementsByClassName("scrl-bar")[i].disabled = true;
     }
-    initVarValue()
+    initVarValue();
     main(population);
 }
 
@@ -139,41 +151,42 @@ function initVarValue() {
     peopleSize = 10;
     stopSimulation = false;
     day = 0;
-    ctx = document.getElementById('myChart').getContext('2d');
-    Chart.defaults.global.defaultFontColor = '#fff';
+    ctx = document.getElementById("myChart").getContext("2d");
+    Chart.defaults.global.defaultFontColor = "#fff";
     chart = new Chart(ctx, {
-        type: 'line',
+        type: "line",
         data: {
             labels: [],
-            datasets: [{
-                    label: 'New Record',
+            datasets: [
+                {
+                    label: "New Record",
                     // backgroundColor: 'rgba(255, 99, 132, 1)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    data: []
+                    borderColor: "rgba(255, 99, 132, 1)",
+                    data: [],
                 },
                 {
-                    label: 'Current Infection',
+                    label: "Current Infection",
                     // backgroundColor: 'rgba(99, 255, 132, 1)',
-                    borderColor: 'rgba(99, 255, 132, 1)',
-                    data: []
+                    borderColor: "rgba(99, 255, 132, 1)",
+                    data: [],
                 },
                 {
-                    label: 'Infection History',
+                    label: "Infection History",
                     // backgroundColor: 'rgba(99, 132, 255, 1)',
-                    borderColor: 'rgba(99, 132, 255, 1)',
-                    data: []
-                }
-            ]
+                    borderColor: "rgba(99, 132, 255, 1)",
+                    data: [],
+                },
+            ],
         },
         options: {
-            events: ['click'],
+            events: ["click"],
             legend: {
                 labels: {
                     fontSize: 10,
                     boxWidth: 10,
-                }
+                },
             },
-        }
+        },
     });
     // mouseIsDown = false;
 
@@ -204,7 +217,7 @@ function initDotObj(num) {
             socialDistance: socialDistance,
             energy: energy,
             infected: false,
-            recoverDay: recoverDay
+            recoverDay: recoverDay,
         });
         allDotObjs.push(dotObj);
         initDotDOM(dotObj, i);
@@ -222,16 +235,16 @@ function initDotDOM(aDotObj, i) {
     dotDiv.draggable = true;
     dotDiv.style.width = `${aDotObj.width}px`;
     dotDiv.style.height = `${aDotObj.height}px`;
-    dotDiv.style.left = `${aDotObj.pos[0]}px`
-    dotDiv.style.top = `${aDotObj.pos[1]}px`
+    dotDiv.style.left = `${aDotObj.pos[0]}px`;
+    dotDiv.style.top = `${aDotObj.pos[1]}px`;
     dotDiv.style.transitionDuration = `${waitTime}ms`;
     let inside = document.createElement("div");
     inside.className = "item";
     inside.id = `Item${i}`;
     inside.style.width = `${peopleSize}px`;
     inside.style.height = `${peopleSize}px`;
-    inside.style.left = `${(socialDistance-peopleSize)/2}px`;
-    inside.style.top = `${(socialDistance-peopleSize)/2}px`;
+    inside.style.left = `${(socialDistance - peopleSize) / 2}px`;
+    inside.style.top = `${(socialDistance - peopleSize) / 2}px`;
     dotDiv.appendChild(inside);
     mainDiv.appendChild(dotDiv);
 }
@@ -239,7 +252,8 @@ function initDotDOM(aDotObj, i) {
 function getInfected(aDotObj, i) {
     aDotObj.getInfected();
     document.getElementById(`Item${i}`).style.backgroundColor = "#F00";
-    document.getElementById(`Dot${i}`).style.backgroundColor = "rgba(255, 0, 0, 0.1)";
+    document.getElementById(`Dot${i}`).style.backgroundColor =
+        "rgba(255, 0, 0, 0.1)";
 }
 
 function updateChart(day, newRecord, infectedNum, hasGotInfected) {
@@ -270,7 +284,7 @@ function elAddOnce() {
     simulateBtn.removeEventListener("click", toSetUp);
     simulateBtn.className = "pause-simulate-btn";
     simulateBtn.addEventListener("click", toPause);
-    document.getElementById("stop-btn").addEventListener("click", function() {
+    document.getElementById("stop-btn").addEventListener("click", function () {
         location.reload();
     });
     // document.addEventListener("dragover", function(anEvent) {
@@ -300,7 +314,8 @@ function moveAllDots() {
         moveDot(i);
         if (allDotObjs[i].immune && !allDotObjs[i].hasImmuneColor) {
             document.getElementById(`Item${i}`).style.backgroundColor = "#444";
-            document.getElementById(`Dot${i}`).style.backgroundColor = "rgba(100, 100, 100, 0.1)";
+            document.getElementById(`Dot${i}`).style.backgroundColor =
+                "rgba(100, 100, 100, 0.1)";
             allDotObjs[i].hasImmuneColor = true;
         }
     }
@@ -312,7 +327,7 @@ function moveAllDots() {
 function moveDot(i) {
     if (mode == "center") {
         if (!allDotObjs[i].atCenter) {
-            if ((Math.random() * 100) < goToCenterRate) {
+            if (Math.random() * 100 < goToCenterRate) {
                 allDotObjs[i].move("toCenter");
             } else {
                 allDotObjs[i].move("default");
@@ -326,28 +341,30 @@ function moveDot(i) {
     document.getElementById(`Dot${i}`).style.left = `${allDotObjs[i].pos[0]}px`;
     document.getElementById(`Dot${i}`).style.top = `${allDotObjs[i].pos[1]}px`;
     let selfCenterPos = [
-        allDotObjs[i].pos[0] + (allDotObjs[i].width / 2),
-        allDotObjs[i].pos[1] + (allDotObjs[i].height / 2)
+        allDotObjs[i].pos[0] + allDotObjs[i].width / 2,
+        allDotObjs[i].pos[1] + allDotObjs[i].height / 2,
     ];
 
     // check if it is infected or not
     for (let j = 0; j < allDotObjs.length; j++) {
         let otherCenterPos = [
-            allDotObjs[j].pos[0] + (allDotObjs[j].width / 2),
-            allDotObjs[j].pos[1] + (allDotObjs[j].height / 2)
+            allDotObjs[j].pos[0] + allDotObjs[j].width / 2,
+            allDotObjs[j].pos[1] + allDotObjs[j].height / 2,
         ];
         if (j != i && allDotObjs[j].infected && !allDotObjs[i].immune) {
             let vector = [
                 selfCenterPos[0] - otherCenterPos[0],
-                selfCenterPos[1] - otherCenterPos[1]
+                selfCenterPos[1] - otherCenterPos[1],
             ];
-            let dist = Math.sqrt(Math.pow(vector[0], 2) + Math.pow(vector[1], 2));
+            let dist = Math.sqrt(
+                Math.pow(vector[0], 2) + Math.pow(vector[1], 2)
+            );
             // infection rate: (virusPower / Math.pow(dist, 2))
             // if (Math.random() <= (virusPower / Math.pow(dist, 2))) {
             //     allDotObjs[i].getInfected();
             // }
             if (dist <= virusPower) {
-                if ((Math.random() * 100) <= infectedPossibility) {
+                if (Math.random() * 100 <= infectedPossibility) {
                     getInfected(allDotObjs[i], i);
                 }
             }
@@ -374,7 +391,12 @@ function infectionRecord() {
         }
         hasGotInfected += newRecord;
         infectedNum = currentInfectedNum;
-        updateChart(parseInt(day + 0.1), newRecord, infectedNum, hasGotInfected);
+        updateChart(
+            parseInt(day + 0.1),
+            newRecord,
+            infectedNum,
+            hasGotInfected
+        );
     }
     if (infectedNum == 0) prepareToRestart();
     day += 0.1;
@@ -382,7 +404,11 @@ function infectionRecord() {
 
 function prepareToRestart() {
     stopSimulation = true;
-    for (let i = 0; i < document.getElementsByClassName("scrl-bar").length; i++) {
+    for (
+        let i = 0;
+        i < document.getElementsByClassName("scrl-bar").length;
+        i++
+    ) {
         document.getElementsByClassName("scrl-bar")[i].disabled = false;
     }
     simulateBtn.className = "start-simulate-btn";
@@ -392,13 +418,18 @@ function prepareToRestart() {
 function chaseAway(anEvent) {
     // if (mouseIsDown) {
     let pos = [
-        parseFloat(anEvent.target.style.left.split("px")[0], 10) + (parseFloat(anEvent.target.style.width.split("px")[0], 10) / 2),
-        parseFloat(anEvent.target.style.top.split("px")[0], 10) + (parseFloat(anEvent.target.style.height.split("px")[0], 10) / 2)
+        parseFloat(anEvent.target.style.left.split("px")[0], 10) +
+            parseFloat(anEvent.target.style.width.split("px")[0], 10) / 2,
+        parseFloat(anEvent.target.style.top.split("px")[0], 10) +
+            parseFloat(anEvent.target.style.height.split("px")[0], 10) / 2,
     ];
-    let delta = [(pos[0] - anEvent.clientX) * 3, (pos[1] - anEvent.clientY) * 3];
+    let delta = [
+        (pos[0] - anEvent.clientX) * 3,
+        (pos[1] - anEvent.clientY) * 3,
+    ];
     allDotObjs[parseInt(anEvent.target.id.split("Dot")[1], 10)].pos = [
         parseFloat(anEvent.target.style.left.split("px")[0], 10) + delta[0],
-        parseFloat(anEvent.target.style.top.split("px")[0], 10) + delta[1]
+        parseFloat(anEvent.target.style.top.split("px")[0], 10) + delta[1],
     ];
     // }
 }
