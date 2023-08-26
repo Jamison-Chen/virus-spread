@@ -2,7 +2,7 @@
   "name": "virus-spread",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./js/main.js",
   "scripts": {
     "init-ts": "tsc --init",
     "watch-ts": "tsc -w",
