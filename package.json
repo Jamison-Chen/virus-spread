@@ -6,7 +6,7 @@
   "scripts": {
     "init-ts": "tsc --init",
     "watch-ts": "tsc -w",
-    "watch-sass": "sass --watch .:.",
+    "watch-sass": "sass --watch .:. --no-source-map",
     "dev": "concurrently --kill-others 'npm:watch-*'"
   },
   "keywords": [],
