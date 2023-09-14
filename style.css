@@ -80,10 +80,14 @@ body {
   cursor: pointer;
 }
 #select-mode-page > #setting-trigger.close {
+  display: none;
   transform: rotate(135deg) translate(35.4%, -35.4%);
 }
 #select-mode-page > #setting-trigger.close:hover {
   transform: rotate(135deg) translate(35.4%, -35.4%) scale(1.2);
+}
+#select-mode-page > #setting-trigger.close.show, #select-mode-page > #setting-trigger.close.hide {
+  display: initial;
 }
 #select-mode-page > #setting-trigger.close.show {
   bottom: 10%;

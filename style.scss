@@ -78,9 +78,14 @@ body {
             cursor: pointer;
         }
         &.close {
+            display: none;
             transform: rotate(135deg) translate(35.4%, -35.4%);
             &:hover {
                 transform: rotate(135deg) translate(35.4%, -35.4%) scale(1.2);
+            }
+            &.show,
+            &.hide {
+                display: initial;
             }
             &.show {
                 bottom: 10%;
