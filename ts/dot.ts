@@ -8,7 +8,6 @@ export default class Dot {
     public status: "healthy" | "infected" | "immune";
     public position: [number, number];
     private velocity: [number, number];
-    private acceleration: [number, number];
     public isRecorded: boolean;
     public atCenter: boolean;
     public constructor(energy: number, dayToRecover: number) {
@@ -20,7 +19,6 @@ export default class Dot {
             Math.random() * Dot.mainDiv.clientHeight,
         ];
         this.velocity = this.getVelocity(Math.random() * 360);
-        this.acceleration = [0, 0];
         this.isRecorded = false;
         this.atCenter = false;
         this.div = this.createDiv();
@@ -45,36 +43,35 @@ export default class Dot {
     }
     public move() {
         if (Data.mode == "classic") {
-            this.acceleration = this.getAcceleration();
-            const newVelocity: [number, number] = [
-                Math.max(
-                    Math.min(
-                        this.velocity[0] + this.acceleration[0],
-                        this.energy
+            let newVelocity: [number, number];
+            // Randomly make turn
+            if (Math.random() < 0.01) {
+                newVelocity = this.getVelocity(Math.random() * 360);
+            } else {
+                const [accelerationX, accelerationY] = this.getAcceleration();
+                newVelocity = [
+                    Math.max(
+                        Math.min(this.velocity[0] + accelerationX, this.energy),
+                        -this.energy
                     ),
-                    -this.energy
-                ),
-                Math.max(
-                    Math.min(
-                        this.velocity[1] + this.acceleration[1],
-                        this.energy
+                    Math.max(
+                        Math.min(this.velocity[1] + accelerationY, this.energy),
+                        -this.energy
                     ),
-                    -this.energy
-                ),
-            ];
+                ];
+            }
 
             // Bounce when touching wall
             if (this.position[0] < 0) newVelocity[0] = Math.abs(newVelocity[0]);
-            if (this.position[0] > Dot.mainDiv.clientWidth) {
+            else if (this.position[0] > Dot.mainDiv.clientWidth) {
                 newVelocity[0] = -Math.abs(newVelocity[0]);
             }
             if (this.position[1] < 0) newVelocity[1] = Math.abs(newVelocity[1]);
-            if (this.position[1] > Dot.mainDiv.clientHeight) {
+            else if (this.position[1] > Dot.mainDiv.clientHeight) {
                 newVelocity[1] = -Math.abs(newVelocity[1]);
             }
 
             this.velocity = newVelocity;
-
             this.position = [
                 this.position[0] + this.velocity[0],
                 this.position[1] + this.velocity[1],
